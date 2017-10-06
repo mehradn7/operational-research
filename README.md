@@ -21,7 +21,7 @@ partagé :
 
 Un email a été envoyé à vos adresses indiquées dans la partie contact.
 
-# Contact
+# Contacts
 
     * Romain : romain.egele@etu.enseeiht.fr
     * David : david.diochot@etu.enseeiht.fr

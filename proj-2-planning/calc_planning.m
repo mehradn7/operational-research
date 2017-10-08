@@ -40,18 +40,16 @@ A = zeros(size(x,2), size(b,2));
 begin_2 = 0; % offset const to avoid conflicts of affectation with other constraints
 n = 0; % (n+1)th constraint
 for di = 1:d % loop on days, di is the current day
-  for k = 1*di:t*di % loop on slots, k is the current slot in [|1, d*t|]
-    A(begin_2+1, threeD2oneD(1,1,k)) = 1; % 1 : maths (a)
-    A(begin_2+2, threeD2oneD(2,2,k)) = 1; % 2 : maths (b)
-    for j = 1:c
-      A(begin_2+2+j, threeD2oneD(3,j,k)) = 1; % 3, 4 : physique (a)
-      A(begin_2+6+j, threeD2oneD(6,j,k)) = 1; % 7, 8 : anglais (a)
-    end
-    A(begin_2+5, threeD2oneD(4,1,k)) = 1; % 5 : informatique (a)
-    A(begin_2+6, threeD2oneD(5,2,k)) = 1; % 6 : informatique (b)
-    A(begin_2+9, threeD2oneD(7,1,k)) = 1; % 9 : sport (a)
-    A(begin_2+10, threeD2oneD(8,2,k)) = 1; % 10 : sport (b)
-  end
+  K = 1*di:t*di; % loop on slots, k is the current slot in [|1, d*t|]
+  A(begin_2+1, threeD2oneD(1,1,K)) = ones(1,t); % 1 : maths (a)
+  A(begin_2+2, threeD2oneD(2,2,K)) = ones(1,t); % 2 : maths (b)
+  J = 1:c;
+  A(begin_2+3:begin_2+3+(c-1), threeD2oneD(3,J,K)) = ones(1,t); % 3, 4 : physique (a)
+  A(begin_2+7:begin_2+7+(c-1), threeD2oneD(6,J,K)) = ones(1,t); % 7, 8 : anglais (a)
+  A(begin_2+5, threeD2oneD(4,1,K)) = 2*ones(1,t); % 5 : informatique (a)
+  A(begin_2+6, threeD2oneD(5,2,K)) = 2*ones(1,t); % 6 : informatique (b)
+  A(begin_2+9, threeD2oneD(7,1,K)) = ones(1,t); % 9 : sport (a)
+  A(begin_2+10, threeD2oneD(8,2,K)) = ones(1,t); % 10 : sport (b)
 end
 
 

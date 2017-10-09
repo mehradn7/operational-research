@@ -45,14 +45,17 @@ for di = 1:d % loop on days, di is the current day
   A(begin_2+1, threeD2oneD(1,1,K)) = ones(1,t); % 1 : maths (a)
   A(begin_2+2, threeD2oneD(2,2,K)) = ones(1,t); % 2 : maths (b)
   J = 1:c; % scale on classes
-  A(begin_2+3:begin_2+3+(c-1), threeD2oneD(3,J,K)) = ones(1,t); % 3, 4 : physique (a)
-  A(begin_2+7:begin_2+7+(c-1), threeD2oneD(6,J,K)) = ones(1,t); % 7, 8 : anglais (a)
+	for j=1:c
+		A(begin_2+3+(j-1), threeD2oneD(3,j,K)) = ones(1,t); % 3, 4 : physique (a)
+		A(begin_2+7+(j-1), threeD2oneD(6,j,K)) = ones(1,t); % 7, 8 : anglais (a)
+	end
   A(begin_2+5, threeD2oneD(4,1,K)) = ones(1,t); % 5 : informatique (a)
   A(begin_2+6, threeD2oneD(5,2,K)) = ones(1,t); % 6 : informatique (b)
   A(begin_2+9, threeD2oneD(7,1,K)) = ones(1,t); % 9 : sport (a)
   A(begin_2+10, threeD2oneD(8,2,K)) = ones(1,t); % 10 : sport (b)
   b(begin_2+1:begin_2+10) = ones(10,1); % for all constraints = 1
   b(begin_2+5:begin_2+6) = 2*ones(2,1); % 5,6 : informatique (a,b)
+	begin_2 = begin_2 + 10;
 end
 
 

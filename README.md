@@ -10,6 +10,12 @@
 
 * Étapes : modélisation du problème pour le 9/10
 
+### Projet 2
+
+* Rendu : 27/10
+* Chef de projet : Sarah-Myriam
+* Responsable qualité : Mehrad
+
 ## Rapport
 
 Le rapport est édité via [Sharelatex](https://fr.sharelatex.com) sur le compte

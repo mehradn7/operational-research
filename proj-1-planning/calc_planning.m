@@ -83,13 +83,17 @@ beq(begin_3+4)=3;
 %Le premier créneau du lundi matin est réservé au partiel
 Aeq(begin_3+5,threeD2oneD(I,1,1))=ones(1,p);
 Aeq(begin_3+6,threeD2oneD(I,2,1))=ones(1,p);
+beq(begin_3+5)=0;
+beq(begin_3+6)=0;
 %Mr Ellips(2) est indisponible le lundi matin
 Aeq(begin_3+7,threeD2oneD(2,2,1:2))=ones(1,2);
+beq(begin_3+7)=0;
 %Mme Proton (3) ne peut pas travailler le mercredi
 mercredi=9:12;
 Aeq(begin_3+8,threeD2oneD(3,1,mercredi))=ones(1,t);
 Aeq(begin_3+9,threeD2oneD(3,2,mercredi))=ones(1,t);
-
+beq(begin_3+8)=0;
+beq(begin_3+9)=0;
 
 %Un prof a un cours avec une seule promo dans un creneau Proton (3) et
 %Young (6)

@@ -82,7 +82,7 @@ Aeq(begin_3+4,threeD2oneD(6,2,1:d*t))=ones(1,d*t);
 beq(begin_3+4)=3;
 %Le premier créneau du lundi matin est réservé au partiel
 Aeq(begin_3+5,threeD2oneD(I,1,1))=ones(1,p);
-Aeq(begin_3+6,threeD2oneD(I,1,1))=ones(1,p);
+Aeq(begin_3+6,threeD2oneD(I,2,1))=ones(1,p);
 %Mr Ellips(2) est indisponible le lundi matin
 Aeq(begin_3+7,threeD2oneD(2,2,1:2))=ones(1,2);
 %Mme Proton (3) ne peut pas travailler le mercredi

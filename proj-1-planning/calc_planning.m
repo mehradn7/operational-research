@@ -35,6 +35,23 @@ b = zeros(nb_constraints, 1);
 A = zeros(size(x,2), size(b,2));
 
 % constraints : I
+begin_ineq = 0;
+
+for j=1:c
+    for k=1:t*d
+        for u=1:t-1
+            for v=1:t-1
+                if mod(k-u,t)==0 && mod(k+v,t)==0
+                    K =[k-u , k+v , k];
+                    A(begin_ineq,  ) = -1;             % tj,k
+                    A(begin_ineq, threeD2oneD(,j,K)) = [ 1 , 1 , -1];  % les trois termes restants
+                    b(begin_ineq) = -1;
+                    begin_eq = begin_ineq + 1;
+                end
+            end
+        end
+    end
+end
 
 
 % constraints : II, David & Romain

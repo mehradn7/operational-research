@@ -36,6 +36,7 @@ A = zeros(size(x,2), size(b,2));
 
 % constraints : I
 begin_ineq = 0;
+begin_eq =0;
 
 for j=1:c
     for k=1:t*d
@@ -43,12 +44,12 @@ for j=1:c
             for v=1:(t - mod(k,t))
                 if ~(mod(k,t)==0 || mod(k,t)==1)
                     K =[k-u , k+v , k];
-		    A(begin_ineq, threeD2oneD_t(j,k)) = -1;% tj,k
-		    for i=1:p
+		            A(begin_ineq, threeD2oneD_t(j,k)) = -1;% tj,k
+		            for i=1:p
                     	A(begin_ineq, threeD2oneD(i,j,K)) = [ 1 , 1 , -1];  % les trois termes restants
                     end
-		    b(begin_ineq) = 1;
-                    begin_eq = begin_ineq + 1;
+		            b(begin_ineq) = 1;
+                    begin_ineq = begin_ineq + 1;
                 end
             end
         end
@@ -126,4 +127,64 @@ for k = 1:d*t % loop on slots, k is the current slot
 end
 % constraints : IV
 
-% constraints : IV
+K=1:d*t;
+
+% Droite
+
+Aeq(begin_eq, threeD2oneD(1,2,K))=ones(1,d*t);
+beq(begin_eq)=0;
+begin_eq=begin_eq+1;
+
+% Droite
+
+Aeq(begin_eq, threeD2oneD(1,1,K))=ones(1,d*t);
+beq(begin_eq)=5;
+begin_eq=begin_eq+1;
+
+% Ellips
+
+Aeq(begin_eq, threeD2oneD(2,1,K))=ones(1,d*t);
+beq(begin_eq)=0;
+begin_eq=begin_eq+1;
+
+% Ellips
+
+Aeq(begin_eq, threeD2oneD(2,2,K))=ones(1,d*t);
+beq(begin_eq)=4;
+begin_eq=begin_eq+1;
+
+% Proton
+
+Aeq(begin_eq, threeD2oneD(3,1,K))=ones(1,d*t);
+beq(begin_eq)=3;
+begin_eq=begin_eq+1;
+
+% Proton
+
+Aeq(begin_eq, threeD2oneD(3,2,K))=ones(1,d*t);
+beq(begin_eq)=3;
+begin_eq=begin_eq+1;
+
+% Pascal
+
+Aeq(begin_eq, threeD2oneD(4,2,K))=ones(1,d*t);
+beq(begin_eq)=0;
+begin_eq=begin_eq+1;
+
+% Pascal
+
+Aeq(begin_eq, threeD2oneD(4,1,K))=ones(1,d*t);
+beq(begin_eq)=6;
+begin_eq=begin_eq+1;
+
+% Delle
+
+Aeq(begin_eq, threeD2oneD(5,1,K))=ones(1,d*t);
+beq(begin_eq)=0;
+begin_eq=begin_eq+1;
+
+% Delle
+
+Aeq(begin_eq, threeD2oneD(5,2,K))=ones(1,d*t);
+beq(begin_eq)=6;
+begin_eq=begin_eq+1;

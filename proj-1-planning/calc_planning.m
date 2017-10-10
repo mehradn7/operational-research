@@ -188,3 +188,35 @@ begin_eq=begin_eq+1;
 Aeq(begin_eq, threeD2oneD(5,2,K))=ones(1,d*t);
 beq(begin_eq)=6;
 begin_eq=begin_eq+1;
+
+
+% constraints : V
+
+% Plusieurs professeurs ne peuvent pas donner cours sur un même créneau
+
+I=1:m;
+for j=1:c
+    for k=1:d*t
+      A(begin_ineq, threeD2oneD(I,j,k))=ones(1,m);
+      b(begin_ineq)=1;
+      begin_ineq=begin_ineq+1;
+    end
+end
+
+% Le professeur Young ne peut pas donner cours à plusieurs promos sur le même créneau
+
+J=1:c;
+for k=1:d*t
+    A(begin_ineq, threeD2oneD(6,J,k))=ones(1,c);
+    b(begin_ineq)=1;
+    begin_ineq=begin_ineq+1;
+end
+
+% Le professeur Proton ne peut pas donner cours à plusieurs promos sur le même créneau
+
+J=1:c;
+for k=1:d*t
+    A(begin_ineq, threeD2oneD(3,J,k))=ones(1,c);
+    b(begin_ineq)=1;
+    begin_ineq=begin_ineq+1;
+end

@@ -39,13 +39,15 @@ begin_ineq = 0;
 
 for j=1:c
     for k=1:t*d
-        for u=1:t-1
-            for v=1:t-1
-                if mod(k-u,t)==0 && mod(k+v,t)==0
+        for u=1:(mod(k,t)-1)
+            for v=1:(t - mod(k,t))
+                if ~(mod(k,t)==0 || mod(k,t)==1)
                     K =[k-u , k+v , k];
-                    A(begin_ineq,  ) = -1;             % tj,k
-                    A(begin_ineq, threeD2oneD(,j,K)) = [ 1 , 1 , -1];  % les trois termes restants
-                    b(begin_ineq) = -1;
+		    A(begin_ineq, threeD2oneD_t(j,k)) = -1;% tj,k
+		    for i=1:p
+                    	A(begin_ineq, threeD2oneD(i,j,K)) = [ 1 , 1 , -1];  % les trois termes restants
+                    end
+		    b(begin_ineq) = 1;
                     begin_eq = begin_ineq + 1;
                 end
             end

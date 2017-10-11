@@ -83,7 +83,7 @@ for di = 1:d % loop on days, di is the current day
   A(begin_ineq+10, threeD2oneD(8,2,K)) = ones(1,t); % 10 : sport (b)
   b(begin_ineq+1:begin_ineq+10) = ones(10,1); % for all constraints = 1
   b(begin_ineq+5:begin_ineq+6) = 2*ones(2,1); % 5,6 : informatique (a,b)
-  begin_ineq = begin_ineq + 10;
+  begin_ineq = begin_ineq + 11;
 end
 
 

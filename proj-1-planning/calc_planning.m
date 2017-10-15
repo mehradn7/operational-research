@@ -98,9 +98,9 @@ end
 
 % Sport courses are thursday afternoon between 2pm and 4pm
 Aeq(begin_eq+1,threeD2oneD(7,1,15))=1;
-beq(begin_eq+1,threeD2oneD(7,1,15))=1;
+beq(begin_eq+1)=1;
 Aeq(begin_eq+2,threeD2oneD(8,2,15))=1;
-beq(begin_eq+1,threeD2oneD(8,2,15))=1;
+beq(begin_eq+1)=1;
 Aeq(begin_eq+10,:)=ones(1,length_X);
 Aeq(begin_eq+10,threeD2oneD(7,1,15))=0;
 Aeq(begin_eq+11,:)=ones(1,length_X);

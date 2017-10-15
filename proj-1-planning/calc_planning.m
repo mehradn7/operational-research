@@ -100,11 +100,13 @@ end
 Aeq(begin_eq+1,threeD2oneD(7,1,15))=1;
 beq(begin_eq+1)=1;
 Aeq(begin_eq+2,threeD2oneD(8,2,15))=1;
-beq(begin_eq+1)=1;
+beq(begin_eq+2)=1;
 Aeq(begin_eq+10,:)=ones(1,length_X);
 Aeq(begin_eq+10,threeD2oneD(7,1,15))=0;
+beq(begin_eq+10)=0;
 Aeq(begin_eq+11,:)=ones(1,length_X);
 Aeq(begin_eq+11,threeD2oneD(8,2,15))=0;
+beq(begin_eq+11)=0;
 
 %Mr Youn(6), 3 courses with classe 1 and 3 courses with classe 2
 Aeq(begin_eq+3,threeD2oneD(6,1,1:d*t))=ones(1,d*t);

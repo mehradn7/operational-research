@@ -15,9 +15,9 @@
 % == === === === ==
 
 % == bijection between i_x <-> (i_m, j_m, k_m) ==
-% i_x = (i_m-1)*p*d*t + (j_m-1)*d*t + k_m
-% i_m = fix(i_x/(p*d*t)) + 1
-% rest_i_m = mod(i_m, p*d*t)
+% i_x = (i_m-1)*c*d*t + (j_m-1)*d*t + k_m
+% i_m = fix(i_x/(c*d*t)) + 1
+% rest_i_m = mod(i_m, c*d*t)
 % j_m = fix(rest_i_m/(d*t)) + 1
 % k_m = mod(rest_i_m, d*t)
 % == === === === ==
@@ -31,42 +31,48 @@ profNums = 1:p;
 profs = containers.Map(profNames, profNums); % profs('Droite') return 1
 d = 5;
 t = 4;
-b = zeros(nb_constraints, 1);
-A = zeros(size(x,2), size(b,2));
+length_X = c*d*t*(p+1);
+A = zeros(length_X,length_X);
+b = zeros(length_X,1);
+Aeq = zeros(length_X,length_X);
+beq = zeros(length_X,1);
 
 I = 1:p; %scale on teachers
-J = 1:c; % scale on classes
+J = 1:c; %scale on classes
 
 
 % constraints : I
 
-% offset const to avoid conflicts of affectation with other constraints
-
-begin_ineq = 1; % indice de la ligne a modifié dans A et b
-begin_eq = 1; % indice de la ligne a modifié dans Aeq et beq
-
+% offset consts to avoid conflicts of affectation with other constraints
+begin_ineq = 1; % index of the modified row in A,b
+begin_eq = 1; % index of the modified row in Aeq,beq
 
 for j=1:c
-    for k=1:t*d
-        for u=1:(mod(k,t)-1)
-            for v=1:(t - mod(k,t))
-                if ~(mod(k,t)==0 || mod(k,t)==1)
-                    K =[k-u , k+v , k];
-		            A(begin_ineq, threeD2oneD_t(j,k)) = -1;% tj,k
-		            for i=1:p
-                    	A(begin_ineq, threeD2oneD(i,j,K)) = [ 1 , 1 , -1];  % les trois termes restants
-                    end
-		            b(begin_ineq) = 1;
-                    begin_ineq = begin_ineq + 1;
-                end
-            end
+  for k=1:t*d
+    for u=1:(mod(k,t)-1)
+      for v=1:(t - mod(k,t))
+        if (~(mod(k,t)==0 || mod(k,t)==1))
+          K =[k-u , k+v , k];
+          %new_row = zeros(1,length_X);
+          %new_row(1, twoD2oneD(j,k)) = -1;
+          %A = [A;new_row];
+          A(begin_ineq, twoD2oneD(j,k)) = -1;
+		      for i=1:p
+            %new_row(1, threeD2oneD(i,j,K)) = [1,1,-1];
+            A(begin_ineq, threeD2oneD(i,j,K)) = [ 1 , 1 , -1];  % the three last terms
+          end
+          %A = [A;new_row];
+          %b = [b,1];
+ 		      b(begin_ineq) = 1;
+          begin_ineq = begin_ineq + 1;
         end
+      end
     end
+  end
 end
 
 
 % constraints : II, David & Romain
-% offset const to avoid conflicts of affectation with other constraints
 n = 0; % (n+1)th constraint
 for di = 1:d % loop on days, di is the current day
   K = (di-1)*t+1:t*di; % scale on slots
@@ -90,41 +96,40 @@ end
 % constraints : III
 
 
-%Les cours de sport ont lieu le jeudi après-midi de 14h à 16h
+% Sport courses are thursday afternoon between 2pm and 4pm
 Aeq(begin_eq+1,threeD2oneD(7,1,15))=1;
 beq(begin_eq+1,threeD2oneD(7,1,15))=1;
 Aeq(begin_eq+2,threeD2oneD(8,2,15))=1;
 beq(begin_eq+1,threeD2oneD(8,2,15))=1;
-Aeq(begin_eq+10,:)=ones(1,size(x,1));
+Aeq(begin_eq+10,:)=ones(1,length_X);
 Aeq(begin_eq+10,threeD2oneD(7,1,15))=0;
-Aeq(begin_eq+11,:)=ones(1,size(x,1));
+Aeq(begin_eq+11,:)=ones(1,length_X);
 Aeq(begin_eq+11,threeD2oneD(8,2,15))=0;
 
-%Mr Young(6), 3 cours pour la promo 1 et 3 cours pour la promo 2
+%Mr Youn(6), 3 courses with classe 1 and 3 courses with classe 2
 Aeq(begin_eq+3,threeD2oneD(6,1,1:d*t))=ones(1,d*t);
 beq(begin_eq+3)=3;
 Aeq(begin_eq+4,threeD2oneD(6,2,1:d*t))=ones(1,d*t);
 beq(begin_eq+4)=3;
-%Le premier créneau du lundi matin est réservé au partiel
+%Le first slot on monday morning is for exam
 Aeq(begin_eq+5,threeD2oneD(I,1,1))=ones(1,p);
 Aeq(begin_eq+6,threeD2oneD(I,2,1))=ones(1,p);
 beq(begin_eq+5)=0;
 beq(begin_eq+6)=0;
-%Mr Ellips(2) est indisponible le lundi matin
+%Mr Ellips(2) is no available on monday morning
 Aeq(begin_eq+7,threeD2oneD(2,2,1:2))=ones(1,2);
 beq(begin_eq+7)=0;
-%Mme Proton (3) ne peut pas travailler le mercredi
-mercredi=9:12;
-Aeq(begin_eq+8,threeD2oneD(3,1,mercredi))=ones(1,t);
-Aeq(begin_eq+9,threeD2oneD(3,2,mercredi))=ones(1,t);
+%Ms Proton(3) is not available on wednesday
+wednesday=9:12;
+Aeq(begin_eq+8,threeD2oneD(3,1,wednesday))=ones(1,t);
+Aeq(begin_eq+9,threeD2oneD(3,2,wednesday))=ones(1,t);
 beq(begin_eq+8)=0;
 beq(begin_eq+9)=0;
 
 begin_eq = begin_eq + 12;
 
-%Un prof a un cours avec une seule promo dans un creneau Proton (3) et
-%Young (6)
-%begin_ineq: indice courant des inégalités
+%A teacher only have a course with a classe by slot Proton(3) et Young(6)
+%begin_ineq: current index for inegalities
 for k = 1:d*t % loop on slots, k is the current slot
     A(begin_ineq+1,threeD2oneD(3,J,k))=ones(1,2);
     b(begin_ineq+1)=1;
@@ -132,18 +137,16 @@ for k = 1:d*t % loop on slots, k is the current slot
     b(begin_ineq+2)=1;
     begin_ineq=begin_ineq+2;
 end
-% constraints : IV
 
+% constraints : IV
 K=1:d*t;
 
 % Droite
-
 Aeq(begin_eq, threeD2oneD(1,2,K))=ones(1,d*t);
 beq(begin_eq)=0;
 begin_eq=begin_eq+1;
 
 % Droite
-
 Aeq(begin_eq, threeD2oneD(1,1,K))=ones(1,d*t);
 beq(begin_eq)=5;
 begin_eq=begin_eq+1;
@@ -200,10 +203,10 @@ begin_eq=begin_eq+1;
 % constraints : V
 
 % Plusieurs professeurs ne peuvent pas donner cours sur un même créneau
-
+I = 1:p;
 for j=1:c
     for k=1:d*t
-      A(begin_ineq, threeD2oneD(I,j,k))=ones(1,m);
+      A(begin_ineq, threeD2oneD(I,j,k))=ones(1,p);
       b(begin_ineq)=1;
       begin_ineq=begin_ineq+1;
     end
@@ -211,6 +214,7 @@ end
 
 % Le professeur Young ne peut pas donner cours à plusieurs promos sur le même créneau
 
+J = 1:c;
 for k=1:d*t
     A(begin_ineq, threeD2oneD(6,J,k))=ones(1,c);
     b(begin_ineq)=1;
@@ -219,8 +223,12 @@ end
 
 % Le professeur Proton ne peut pas donner cours à plusieurs promos sur le même créneau
 
+J = 1:c;
 for k=1:d*t
     A(begin_ineq, threeD2oneD(3,J,k))=ones(1,c);
     b(begin_ineq)=1;
     begin_ineq=begin_ineq+1;
 end
+
+
+X = linprog(f,A,b,Aeq,beq,lb,ub);

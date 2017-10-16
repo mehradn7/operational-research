@@ -1,5 +1,8 @@
 # Informations générales
 
+## Slack
+Nous utilisons slack pour communiquer !
+
 ## Responsables de projet et dates
 
 ### Projet 1 - Planning

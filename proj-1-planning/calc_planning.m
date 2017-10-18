@@ -1,5 +1,7 @@
+
 % Solve the min pb about planning with linprog
 function X = calc_planning()
+clear;
 % === Variables ===
 % i_x : index in vector X
 % i_m : index in matrix X, teachers (profs)
@@ -47,22 +49,47 @@ begin_ineq = 1; % index of the modified row in A,b
 begin_eq = 1; % index of the modified row in Aeq,beq
 
 for j=1:c
-  for k=1:t*d
+  for k=1:20
     for u=1:(mod(k,t)-1)
       for v=1:(t - mod(k,t))
         if (~(mod(k,t)==0 || mod(k,t)==1))
-          K =[k-u , k+v , k];
-          A(begin_ineq, twoD2oneD(j,k)) = -1;
-		      for i=1:p
-            A(begin_ineq, threeD2oneD(i,j,K)) = [ 1 , 1 , -1];  % the three last terms
-          end
- 		      b(begin_ineq,1) = 1;
-          begin_ineq = begin_ineq + 1;
+            K =[k-u , k+v , k];
+            A(begin_ineq, twoD2oneD(j,k)) = -1;
+		    for i=1:p
+                A(begin_ineq, threeD2oneD(i,j,K)) = [ 1 , 1 , -1];  % the three last terms
+            end
+             	b(begin_ineq,1) = 1;
+                begin_ineq = begin_ineq + 1;
         end
       end
     end
   end
 end
+% for j=1:c
+%   for k=1:d*t
+%     for u=1:(mod(k,t)-1)
+%       for v=1:(t - mod(k,t))
+%         if (~(mod(k,t)==0 || mod(k,t)==1))
+%           K =[k-u , k+v , k];
+%           A(begin_ineq, twoD2oneD(j,k)) = -1;
+% 		      for i=1:p
+%                 A(begin_ineq, threeD2oneD(i,j,K)) = [ 1 , 1 , -1];  % the three last terms
+% 
+%               end
+%               b(begin_ineq,1) = 1;
+%               begin_ineq = begin_ineq + 1;
+%         else
+%             Aeq(begin_eq,twoD2oneD(j,k))=1;
+%             beq(begin_eq,1) = 0;
+%             begin_eq = begin_eq + 1;
+%         end
+%       end
+%     end
+%   end
+% end
+
+
+
 
 
 % constraints : II, David & Romain
@@ -70,7 +97,24 @@ for di = 1:d % loop on days, di is the current day
   K = (di-1)*t+1:t*di; % scale on slots
   A(begin_ineq+1, threeD2oneD(1,1,K)) = ones(1,t); % 1 : maths (a)
   A(begin_ineq+2, threeD2oneD(2,2,K)) = ones(1,t); % 2 : maths (b)s
-	for j=1:c
+	for j=1:c% for j=1:c
+%   for k=1:t*d
+%     for u=1:(mod(k,t)-1)
+%       for v=1:(t - mod(k,t))
+%         if (~(mod(k,t)==0 || mod(k,t)==1))
+%           K =[k-u , k+v , k];
+%           A(begin_ineq, twoD2oneD(j,k)) = -1;
+% 		      for i=1:p
+%             A(begin_ineq, threeD2oneD(i,j,K)) = [ 1 , 1 , -1];  % the three last terms
+%             b(begin_ineq,1) = 1;
+%             begin_ineq = begin_ineq + 1;
+%           end
+% 
+%         end
+%       end
+%     end
+%   end
+% end
 		A(begin_ineq+3+(j-1), threeD2oneD(3,j,K)) = ones(1,t); % 3, 4 : physique (a)
 		A(begin_ineq+7+(j-1), threeD2oneD(6,j,K)) = ones(1,t); % 7, 8 : anglais (a)
 	end
@@ -126,16 +170,24 @@ begin_eq = begin_eq + 12;
 % 
 % %A teacher only have a course with a classe by slot Proton(3) et Young(6)
 % %begin_ineq: current index for inegalities
-% for k = 1:d*t % loop on slots, k is the current slot
-%     A(begin_ineq+1,threeD2oneD(3,J,k))=ones(1,2);
-%     b(begin_ineq+1)=1;
-%     A(begin_ineq+2,threeD2oneD(6,J,k))=ones(1,2);
-%     b(begin_ineq+2)=1;
-%     begin_ineq=begin_ineq+2;
-% end
+for k = 1:d*t % loop on slots, k is the current slot
+    A(begin_ineq+1,threeD2oneD(3,J,k))=ones(1,2);
+    b(begin_ineq+1)=1;
+    A(begin_ineq+2,threeD2oneD(6,J,k))=ones(1,2);
+    b(begin_ineq+2)=1;
+    begin_ineq=begin_ineq+2;
+end
 % 
 % constraints : IV
 K=1:d*t;
+
+Aeq(begin_eq, threeD2oneD(7,2,K))=ones(1,d*t);
+beq(begin_eq)=0;
+begin_eq=begin_eq+1;
+
+Aeq(begin_eq, threeD2oneD(8,1,K))=ones(1,d*t);
+beq(begin_eq)=0;
+begin_eq=begin_eq+1;
 
 % Droite
 Aeq(begin_eq, threeD2oneD(1,2,K))=ones(1,d*t);
@@ -144,56 +196,56 @@ begin_eq=begin_eq+1;
 
 % Droite
 Aeq(begin_eq, threeD2oneD(1,1,K))=ones(1,d*t);
-beq(begin_eq)=3;
+beq(begin_eq)=5;
 begin_eq=begin_eq+1;
 
 % % Ellips
-% 
-% Aeq(begin_eq, threeD2oneD(2,1,K))=ones(1,d*t);
-% beq(begin_eq)=0;
-% begin_eq=begin_eq+1;
+
+Aeq(begin_eq, threeD2oneD(2,1,K))=ones(1,d*t);
+beq(begin_eq)=0;
+begin_eq=begin_eq+1;
 % 
 % % Ellips
 % 
-% Aeq(begin_eq, threeD2oneD(2,2,K))=ones(1,d*t);
-% beq(begin_eq)=4;
-% begin_eq=begin_eq+1;
+Aeq(begin_eq, threeD2oneD(2,2,K))=ones(1,d*t);
+beq(begin_eq)=4;
+begin_eq=begin_eq+1;
 % 
 % % Proton
 % 
-% Aeq(begin_eq, threeD2oneD(3,1,K))=ones(1,d*t);
-% beq(begin_eq)=3;
-% begin_eq=begin_eq+1;
+Aeq(begin_eq, threeD2oneD(3,1,K))=ones(1,d*t);
+beq(begin_eq)=3;
+begin_eq=begin_eq+1;
 % 
 % % Proton
 % 
-% Aeq(begin_eq, threeD2oneD(3,2,K))=ones(1,d*t);
-% beq(begin_eq)=3;
-% begin_eq=begin_eq+1;
+Aeq(begin_eq, threeD2oneD(3,2,K))=ones(1,d*t);
+beq(begin_eq)=3;
+begin_eq=begin_eq+1;
 % 
 % % Pascal
 % 
-% Aeq(begin_eq, threeD2oneD(4,2,K))=ones(1,d*t);
-% beq(begin_eq)=0;
-% begin_eq=begin_eq+1;
+Aeq(begin_eq, threeD2oneD(4,2,K))=ones(1,d*t);
+beq(begin_eq)=0;
+begin_eq=begin_eq+1;
 % 
 % % Pascal
 % 
-% Aeq(begin_eq, threeD2oneD(4,1,K))=ones(1,d*t);
-% beq(begin_eq)=6;
-% begin_eq=begin_eq+1;
+Aeq(begin_eq, threeD2oneD(4,1,K))=ones(1,d*t);
+beq(begin_eq)=6; %To Dooooooooooooooooo
+begin_eq=begin_eq+1;
 % 
 % % Delle
 % 
-% Aeq(begin_eq, threeD2oneD(5,1,K))=ones(1,d*t);
-% beq(begin_eq)=0;
-% begin_eq=begin_eq+1;
+Aeq(begin_eq, threeD2oneD(5,1,K))=ones(1,d*t);
+beq(begin_eq)=0;
+begin_eq=begin_eq+1;
 % 
 % Delle
 
-% Aeq(begin_eq, threeD2oneD(5,2,K))=ones(1,d*t);
-% beq(begin_eq)=6;
-% begin_eq=begin_eq+1;
+Aeq(begin_eq, threeD2oneD(5,2,K))=ones(1,d*t);
+beq(begin_eq)=6;%To Doooooooooooooooooooo
+begin_eq=begin_eq+1;
 % 
 % 
 % % constraints : V
@@ -210,23 +262,31 @@ end
 % 
 % % Le professeur Young ne peut pas donner cours à plusieurs promos sur le même créneau
 % 
-% J = 1:c;
-% for k=1:d*t
-%     A(begin_ineq, threeD2oneD(6,J,k))=ones(1,c);
-%     b(begin_ineq)=1;
-%     begin_ineq=begin_ineq+1;
-% end
+J = 1:c;
+for k=1:d*t
+    A(begin_ineq, threeD2oneD(6,J,k))=ones(1,c);
+    b(begin_ineq)=1;
+    begin_ineq=begin_ineq+1;
+end
 % 
 % % Le professeur Proton ne peut pas donner cours à plusieurs promos sur le même créneau
 % 
-% J = 1:c;
-% for k=1:d*t
-%     A(begin_ineq, threeD2oneD(3,J,k))=ones(1,c);
-%     b(begin_ineq)=1;
-%     begin_ineq=begin_ineq+1;
-% end
+J = 1:c;
+for k=1:d*t
+    A(begin_ineq, threeD2oneD(3,J,k))=ones(1,c);
+    b(begin_ineq)=1;
+    begin_ineq=begin_ineq+1;
+end
 
 X = intlinprog(f,1:length_X,A,b,Aeq,beq,lb,ub);
+
+disp('The result is:---------------------------------------------------------------------------------------------------')
+length(find(0.5<=X))
+X(length_x+1:length_X,1);
+X(threeD2oneD(1:8,1,6));
+X(find(0.5<=X))=1
+
+
 
 % Initialiastion des promos
 Promo1 = zeros(t,d);
@@ -245,4 +305,6 @@ Promo2 = zeros(t,d);
         end
     end
 
-AffichagePromo1
+AffichagePromo1;
+figure();
+AffichagePromo2;

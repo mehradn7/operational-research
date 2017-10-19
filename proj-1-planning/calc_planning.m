@@ -156,7 +156,7 @@ beq(begin_eq)=0;
 begin_eq=begin_eq+1;
 
 
-% %A teacher only have a course with a classe by slot Proton(3) et Young(6)
+%A teacher only have a course with a classe by slot Proton(3) et Young(6)
 
 for k = 1:d*t % loop on slots, k is the current slot
     A(begin_ineq+1,threeD2oneD(3,J,k))=ones(1,2);
@@ -165,81 +165,74 @@ for k = 1:d*t % loop on slots, k is the current slot
     b(begin_ineq+2)=1;
     begin_ineq=begin_ineq+2;
 end
-% 
-% constraints : IV
-K=1:d*t;
 
-Aeq(begin_eq, threeD2oneD(7,2,K))=ones(1,d*t);
-beq(begin_eq)=0;
-begin_eq=begin_eq+1;
+%K=1:d*t;
 
-Aeq(begin_eq, threeD2oneD(8,1,K))=ones(1,d*t);
-beq(begin_eq)=0;
-begin_eq=begin_eq+1;
 
-% Droite
+% Professeur Droite ne donne aucun cours à la promotion 2
+
 Aeq(begin_eq, threeD2oneD(1,2,K))=ones(1,d*t);
 beq(begin_eq)=0;
 begin_eq=begin_eq+1;
 
-% Droite
+% Professeur Droite donne 5 cours par semaine à la promotion 1
+
 Aeq(begin_eq, threeD2oneD(1,1,K))=ones(1,d*t);
 beq(begin_eq)=5;
 begin_eq=begin_eq+1;
 
-% % Ellips
+% Professeur Ellips ne donne aucun cours à la promotion 1
 
 Aeq(begin_eq, threeD2oneD(2,1,K))=ones(1,d*t);
 beq(begin_eq)=0;
 begin_eq=begin_eq+1;
-% 
-% % Ellips
-% 
+
+% Professeur Ellips donne 4 cours par semaine à la promotion 2
+ 
 Aeq(begin_eq, threeD2oneD(2,2,K))=ones(1,d*t);
 beq(begin_eq)=4;
 begin_eq=begin_eq+1;
-% 
-% % Proton
-% 
+ 
+% Professeur Proton donne 3 cours par semaine à la promotion 1
+
 Aeq(begin_eq, threeD2oneD(3,1,K))=ones(1,d*t);
 beq(begin_eq)=3;
 begin_eq=begin_eq+1;
-% 
-% % Proton
-% 
+
+% Professuer Proton donne 3 cours par semaine à la promotion 2
+ 
 Aeq(begin_eq, threeD2oneD(3,2,K))=ones(1,d*t);
 beq(begin_eq)=3;
 begin_eq=begin_eq+1;
-% 
-% % Pascal
-% 
+ 
+% Professeur Pascal ne donne aucun cours à la promotion 2
+
 Aeq(begin_eq, threeD2oneD(4,2,K))=ones(1,d*t);
 beq(begin_eq)=0;
 begin_eq=begin_eq+1;
-% 
-% % Pascal
-% 
+
+% Professeur Pascal donne 6 cours par semaine à la promotion 1
+ 
 Aeq(begin_eq, threeD2oneD(4,1,K))=ones(1,d*t);
-beq(begin_eq)=6; %To Dooooooooooooooooo
+beq(begin_eq)=6;
 begin_eq=begin_eq+1;
-% 
-% % Delle
-% 
+
+% Professeur Delle ne donne aucun cours à la promotion 1
+ 
 Aeq(begin_eq, threeD2oneD(5,1,K))=ones(1,d*t);
 beq(begin_eq)=0;
 begin_eq=begin_eq+1;
-% 
-% Delle
+ 
+% Professeur Delle donne 6 cours par semaine à la promotion 2
 
 Aeq(begin_eq, threeD2oneD(5,2,K))=ones(1,d*t);
-beq(begin_eq)=6;%To Doooooooooooooooooooo
+beq(begin_eq)=6;
 begin_eq=begin_eq+1;
-% 
-% 
-% % constraints : V
-% 
+
+
 % Plusieurs professeurs ne peuvent pas donner cours sur un même créneau
-I = 1:m;
+
+%I = 1:m;
 for j=1:c
     for k=1:d*t
       A(begin_ineq, threeD2oneD(I,j,k))=ones(1,m);
@@ -247,18 +240,18 @@ for j=1:c
       begin_ineq=begin_ineq+1;
     end
 end
-% 
-% % Le professeur Young ne peut pas donner cours à plusieurs promos sur le même créneau
-% 
-J = 1:c;
+ 
+% Le professeur Young ne peut pas donner cours à plusieurs promos sur le même créneau
+
+%J = 1:c;
 for k=1:d*t
     A(begin_ineq, threeD2oneD(6,J,k))=ones(1,c);
     b(begin_ineq)=1;
     begin_ineq=begin_ineq+1;
 end
-% 
-% % Le professeur Proton ne peut pas donner cours à plusieurs promos sur le même créneau
-% 
+ 
+% Le professeur Proton ne peut pas donner cours à plusieurs promos sur le même créneau
+ 
 J = 1:c;
 for k=1:d*t
     A(begin_ineq, threeD2oneD(3,J,k))=ones(1,c);

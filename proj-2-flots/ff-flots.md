@@ -16,7 +16,7 @@
           beta = +inf
           sommet_courant = s
           Tantque (t non marqué) faire // construction des chemins
-            
-          fin tantquqe
+            empiler(voisin_visitables, voisins_directes(s))
+          fin tantque
           continuer =  not(flot_aux = [0,...0])
         fin tantque

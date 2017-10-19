@@ -15,3 +15,55 @@ G = [
   0 0 0 0  X 8; % 5
   0 0 0 0  0 X; % 6
     ];
+
+
+function F = FF_Flots(G, s, t)
+% function: Short description
+%
+% Extended description
+
+    continuer = 1;  %  == true
+    while continuer
+        flot_aux = [];
+        beta = Inf;
+        sommet_courant = s;
+        voisins_visite = [s];
+        ind_parc = 1;             % indice de parcours dans le graphe
+        while (voisins_visite(ind_parc) ~= t)
+            VD = voisins_dir(G,s);
+            i = 1
+            while (capa(sommet_courant, VD(i)) - flot(VD(i), sommet_courant)) == 0   % attention 1er terme enventuellement négatif
+                i = i + 1;
+            end
+            if (i <= size(VD(1)))
+                flot_aux.append(1);
+                ind_parc = ind_parc + 1;
+                voisins_visite.append(VD(i));   % on a le prochain voisin
+                sommet_courant = VD(i);
+                beta = min(beta, capa(sommet_courant, VD(i)) - flot(VD(i), sommet_courant));
+            else
+                % on regarde les voisins indirect
+                VI = voisins_ind(G,s);
+                i = 1
+                while flot(VI(i), sommet_courant) < 0   % attention terme enventuellement négatif
+                    i = i + 1;
+                end
+                if (i <= size(VI(1)))
+                    flot_aux.append(1);
+                    ind_parc = ind_parc + 1;
+                    voisins_visite.append(VI(i));   % on a le prochain voisin
+                    sommet_courant = VI(i);
+                    beta = min(beta, flot(VI(i), sommet_courant));
+                else
+                    % on ne peut pas continuer avec ce sommet
+                    % on doit retourner en arrière
+                end
+            end
+            ind_parc = ind_parc + 1;
+        end
+        % maj du flot ( dans le graphe )
+        voisins_visite = [];
+    end
+    % affectation des flots
+
+end  % function

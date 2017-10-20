@@ -3,11 +3,11 @@ function VD = voisins_dir(G, s)
   VD = [];
   for i=1:(s-1)
     if (G(i,s) < 0)
-      VD.append(i)
+      VD = [VD,i];
     end
   end
   for i=(s+1):size(G,1)
     if (G(s,i) > 0)
-      VD.append(i)
+      VD = [VD,i];
     end
   end

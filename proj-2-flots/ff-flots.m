@@ -8,12 +8,12 @@
 % G(j,i) indique le flot courant sur l'arrête i-j
 G = [
 % 1 2 3 4  5 6  j/i
-  X 8 0 6  0 0; % 1
-  0 X 4 0  8 0; % 2
-  0 0 X 0 -2 6; % 3
-  0 0 0 X  6 0; % 4
-  0 0 0 0  X 8; % 5
-  0 0 0 0  0 X; % 6
+  0 8 0 6  0 0; % 1
+  0 0 4 0  8 0; % 2
+  0 0 0 0 -2 6; % 3
+  0 0 0 0  6 0; % 4
+  0 0 0 0  0 8; % 5
+  0 0 0 0  0 0; % 6
     ];
 
 
@@ -32,7 +32,7 @@ function F = FF_Flots(G, s, t)
         while (voisins_visite(ind_parc) ~= t)
             VD = voisins_dir(G,s);
             i = 1
-            while (capa(sommet_courant, VD(i)) - flot(VD(i), sommet_courant)) == 0   % attention 1er terme enventuellement négatif
+            while (capacite(sommet_courant, VD(i)) - flot(VD(i), sommet_courant)) == 0   % attention 1er terme enventuellement négatif
                 i = i + 1;
             end
             if (i <= size(VD(1)))
@@ -40,7 +40,7 @@ function F = FF_Flots(G, s, t)
                 ind_parc = ind_parc + 1;
                 voisins_visite.append(VD(i));   % on a le prochain voisin
                 sommet_courant = VD(i);
-                beta = min(beta, capa(sommet_courant, VD(i)) - flot(VD(i), sommet_courant));
+                beta = min(beta, capacite(sommet_courant, VD(i)) - flot(VD(i), sommet_courant));
             else
                 % on regarde les voisins indirect
                 VI = voisins_ind(G,s);
@@ -61,9 +61,9 @@ function F = FF_Flots(G, s, t)
             end
             ind_parc = ind_parc + 1;
         end
-        % maj du flot ( dans le graphe )
+        G = maj_flot(G, voisins_visite, beta * flot_aux);
         voisins_visite = [];
     end
-    % affectation des flots
+    G
 
 end  % function

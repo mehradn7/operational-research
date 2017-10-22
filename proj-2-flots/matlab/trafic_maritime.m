@@ -36,4 +36,11 @@ G = ajouterArc(G,7,10,10);  % 20
 G = ajouterArc(G,8,10,20);  % 21
 G = ajouterArc(G,9,10,10);  % 22
 % FIN DEFINITION DU GRAPHE
+disp('Graphe initiale')
 G
+
+
+G = ff_flots(G,1,10);
+disp('Graphe avec le nouveau flot')
+G
+

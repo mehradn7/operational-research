@@ -20,8 +20,10 @@ G = ajouterArc(G,3,4,5);
 G = ajouterArc(G,5,4,4);
 G = ajouterArc(G,2,6,8);
 G = ajouterArc(G,2,7,4);
+G = ajouterArc(G,3,6,5);
 G = ajouterArc(G,3,7,7);
 G = ajouterArc(G,3,8,3);
+G = ajouterArc(G,4,7,6);
 G = ajouterArc(G,4,8,1);
 G = ajouterArc(G,4,9,7);
 G = ajouterArc(G,5,8,5);
@@ -34,3 +36,4 @@ G = ajouterArc(G,7,10,10);
 G = ajouterArc(G,8,10,20);
 G = ajouterArc(G,9,10,10);
 % FIN DEFINITION DU GRAPHE
+G

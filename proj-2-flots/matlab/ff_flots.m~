@@ -34,17 +34,13 @@ while (continuer)
     cond2 = 1;
     while (cond2 && (sommet_courant ~= t))
         disp('DEBUT ITER =======================================')
-        sommet_courant
         VD = voisins_dir(F,sommet_courant)
         i = 1;
-        disp('recherche parmi voisin direct')
         while ((i <= length(VD))  && ((size(find(voisins_visite==VD(i)),2)>0) || ((capacite(F,sommet_courant, VD(i)) - flot(F,VD(i), sommet_courant)) == 0)))
-            VD(i)
-            i = i + 1;
+            i = i + 1
         end
         % (size(find(voisins_visite==VD(i),2)>=0) && (capacite(F,sommet_courant, VD(i)) - flot(F,VD(i), sommet_courant)) != 0))  || (i > length(VD))
         if (i <= length(VD) && (size(find(voisins_visite==VD(i)),2)==0))
-            disp('Voisin directe possible');
             flot_aux = [flot_aux, 1];
             voisins_visite=[voisins_visite,VD(i)];   % on a le prochain voisin
             chemin_ameliorant = [chemin_ameliorant,VD(i)];
@@ -53,15 +49,12 @@ while (continuer)
             c = capacite(F,sommet_courant, VD(i)) - flot(F,VD(i), sommet_courant);
         else
             % on regarde les voisins indirect
-            disp('recherche parmi voisins indirectes');
-            VI = voisins_ind(F,sommet_courant)
+            VI = voisins_ind(F,sommet_courant);
             i = 1;
-            while (i <= length(VI) && ((size(find(voisins_visite==VI(i)),2)>0) || (flot(F, VI(i), sommet_courant) <= 0)))
-                VI(i)
+            while (i <= length(VI) && ((size(find(voisins_visite==VI(i)),2)>0) || (flot(F, VI(i), sommet_courant) < 0)))
                 i = i + 1;
             end
             if (i <= length(VI) && (size(find(voisins_visite==VI(i)),2)==0))
-                disp('Voisin indirecte possible');
                 flot_aux = [flot_aux, -1];
                 voisins_visite=[voisins_visite,VI(i)];   % on a le prochain voisin
                 chemin_ameliorant = [chemin_ameliorant,VI(i)];
@@ -73,15 +66,15 @@ while (continuer)
                 if (sommet_courant == 1)
                     continuer = 0;
                     cond2 = 0;
-                    disp('sommet courant est la source !');
+                    disp('NIKE');
                 else
-                    disp('on retourne en arriere');
                     voisins_visite
                     chemin_ameliorant
                     chemin_ameliorant = chemin_ameliorant(1,1:size(chemin_ameliorant,2)-1)
                     sommet_courant = chemin_ameliorant(size(chemin_ameliorant,2))
                     flot_aux = flot_aux(1,1:size(flot_aux,2)-1);
                 end
+                disp('Hello babe');
 %                 continuer = 0;
 %                 break
             end

@@ -31,8 +31,6 @@ lb = zeros(length_X,1);
 ub = ones(length_X,1);
 
 
-
-
 % Contrainte correspondant à la minimisation du nombre de trous dans
 % l'emploi du temps
 

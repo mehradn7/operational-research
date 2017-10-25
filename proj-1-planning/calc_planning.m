@@ -1,4 +1,3 @@
-
 % Solve the min pb about planning with linprog
 function X = calc_planning()
 clear;
@@ -35,7 +34,7 @@ ub = ones(length_X,1);
 % l'emploi du temps
 
 for j=1:c
-  for k=1:20
+  for k=1:d*t
     for u=1:(mod(k,t)-1)
       for v=1:(t - mod(k,t))
         if (~(mod(k,t)==0 || mod(k,t)==1))

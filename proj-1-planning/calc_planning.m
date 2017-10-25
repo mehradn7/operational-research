@@ -1,3 +1,4 @@
+
 % Solve the min pb about planning with linprog
 function X = calc_planning()
 clear;
@@ -30,18 +31,20 @@ lb = zeros(length_X,1);
 ub = ones(length_X,1);
 
 
+
+
 % Contrainte correspondant à la minimisation du nombre de trous dans
 % l'emploi du temps
 
 for j=1:c
-  for k=1:d*t
+  for k=1:20
     for u=1:(mod(k,t)-1)
       for v=1:(t - mod(k,t))
         if (~(mod(k,t)==0 || mod(k,t)==1))
             L =[k-u , k+v , k];
             A(begin_ineq, twoD2oneD(j,k)) = -1;
 		    for i=1:m
-                A(begin_ineq, threeD2oneD(i,j,L)) = [ 1 , 1 , -1];  % the three last terms
+                A(begin_ineq, threeD2oneD(i,j,L)) = [ 1 , 1 , -1];
             end
              	b(begin_ineq,1) = 1;
                 begin_ineq = begin_ineq + 1;
@@ -57,18 +60,18 @@ end
 
 for di = 1:d % on parcourt tous les jours, di est le jour courant
   L = (di-1)*t+1:t*di; % intervalle créneaux
-  A(begin_ineq+1, threeD2oneD(1,1,L)) = ones(1,t); % 1 : maths (a)
-  A(begin_ineq+2, threeD2oneD(2,2,L)) = ones(1,t); % 2 : maths (b)s
+  A(begin_ineq+1, threeD2oneD(1,1,L)) = ones(1,t); % mathématiques (a)
+  A(begin_ineq+2, threeD2oneD(2,2,L)) = ones(1,t); % mathématiques (b)
 	for j=1:c
-		A(begin_ineq+3+(j-1), threeD2oneD(3,j,L)) = ones(1,t); % 3, 4 : physique (a)
-		A(begin_ineq+7+(j-1), threeD2oneD(6,j,L)) = ones(1,t); % 7, 8 : anglais (a)
+		A(begin_ineq+3+(j-1), threeD2oneD(3,j,L)) = ones(1,t); % physique (a)
+		A(begin_ineq+7+(j-1), threeD2oneD(6,j,L)) = ones(1,t); % anglais (a)
 	end
-  A(begin_ineq+5, threeD2oneD(4,1,L)) = ones(1,t); % 5 : informatique (a)
-  A(begin_ineq+6, threeD2oneD(5,2,L)) = ones(1,t); % 6 : informatique (b)
-  A(begin_ineq+9, threeD2oneD(7,1,L)) = ones(1,t); % 9 : sport (a)
-  A(begin_ineq+10, threeD2oneD(8,2,L)) = ones(1,t); % 10 : sport (b)
-  b(begin_ineq+1:begin_ineq+10) = ones(10,1); % for all constraints = 1
-  b(begin_ineq+5:begin_ineq+6) = 2*ones(2,1); % 5,6 : informatique (a,b)
+  A(begin_ineq+5, threeD2oneD(4,1,L)) = ones(1,t); % informatique (a)
+  A(begin_ineq+6, threeD2oneD(5,2,L)) = ones(1,t); % informatique (b)
+  A(begin_ineq+9, threeD2oneD(7,1,L)) = ones(1,t); % sport (a)
+  A(begin_ineq+10, threeD2oneD(8,2,L)) = ones(1,t); % sport (b)
+  b(begin_ineq+1:begin_ineq+10) = ones(10,1); % pour toutes les contraintes = 1
+  b(begin_ineq+5:begin_ineq+6) = 2*ones(2,1); % informatique (a,b)
   begin_ineq = begin_ineq + 11;
 end
 
@@ -152,20 +155,6 @@ Aeq(begin_eq,threeD2oneD(3,2,wednesday))=ones(1,t);
 beq(begin_eq)=0;
 begin_eq=begin_eq+1;
 
-
-%A teacher only have a course with a classe by slot Proton(3) et Young(6)
-
-for k = 1:d*t % loop on slots, k is the current slot
-    A(begin_ineq+1,threeD2oneD(3,J,k))=ones(1,2);
-    b(begin_ineq+1)=1;
-    A(begin_ineq+2,threeD2oneD(6,J,k))=ones(1,2);
-    b(begin_ineq+2)=1;
-    begin_ineq=begin_ineq+2;
-end
-
-%K=1:d*t;
-
-
 % Professeur Droite ne donne aucun cours à la promotion 2
 
 Aeq(begin_eq, threeD2oneD(1,2,K))=ones(1,d*t);
@@ -229,7 +218,6 @@ begin_eq=begin_eq+1;
 
 % Plusieurs professeurs ne peuvent pas donner cours sur un même créneau
 
-%I = 1:m;
 for j=1:c
     for k=1:d*t
       A(begin_ineq, threeD2oneD(I,j,k))=ones(1,m);
@@ -240,7 +228,6 @@ end
  
 % Le professeur Young ne peut pas donner cours à plusieurs promos sur le même créneau
 
-%J = 1:c;
 for k=1:d*t
     A(begin_ineq, threeD2oneD(6,J,k))=ones(1,c);
     b(begin_ineq)=1;

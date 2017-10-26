@@ -4,6 +4,7 @@
 %
 function [x,F] = simplexe(OPT,c,A,b)
 %
+WITHFOR = 1;
 %% Fonction simplexe
 %
 % Le pb : Opt F(x) = c'*x
@@ -40,7 +41,10 @@ function [x,F] = simplexe(OPT,c,A,b)
 m = size(A,1);
 n = size(A,2);
 J = 1:n;
-JN = 1:n-m;
+JN = 1:n-m;GAMMA(indbeta,:) = GAMMA(indbeta,:) / GAMMA(indbeta,alpha);
+        GAMMAMOINS = GAMMA(setdiff(1:m,indbeta),:);
+        GAMMAMOINS = GAMMA(indbeta,:) .* GAMMAMOINS(:,alpha);
+        GAM
 JB = setdiff(J,JN);
 %
 %% Prétraitement
@@ -110,17 +114,22 @@ while any(OPT*pentes > 0) % Y-a-t-il un chemin améliorant ?
     % Regle de pivotage du SIMPLEXE
     % GAMMA(indbeta,alpha) est le pivot de l'iteration
     %
-    GAMMA(indbeta,:) = GAMMA(indbeta,:) / GAMMA(indbeta,alpha);
-    for l=1:indbeta-1
-      GAMMA(l,:) = GAMMA(l,:) - GAMMA(indbeta,:) * GAMMA(l,alpha);
+    if WITHFOR
+        GAMMA(indbeta,:) = GAMMA(indbeta,:) / GAMMA(indbeta,alpha);
+        for l=1:indbeta-1
+          GAMMA(l,:) = GAMMA(l,:) - GAMMA(indbeta,:) * GAMMA(l,alpha);
+        end
+        for l=indbeta+1:m
+          GAMMA(l,:) = GAMMA(l,:) - GAMMA(indbeta,:) * GAMMA(l,alpha);
+        end
+    else
+        GAMMA(indbeta,:) = GAMMA(indbeta,:) / GAMMA(indbeta,alpha);
+        GAMMAMOINS = GAMMA(setdiff(1:m,indbeta),:);
+        GAMMAMOINS = GAMMA(indbeta,:) .* GAMMAMOINS(:,alpha);
+        GAMMA(setdiff(1:m,indbeta),:) = GAMMA(setdiff(1:m,indbeta),:)-GAMMAMOINS;
     end
-    for l=indbeta+1:m
-      GAMMA(l,:) = GAMMA(l,:) - GAMMA(indbeta,:) * GAMMA(l,alpha);
-    end
-    %GAMMA(1:indbeta-1,:) = GAMMA(1:indbeta-1,:) - GAMMA(indbeta,:) .* GAMMA(1:indbeta-1,alpha);
-    %GAMMA(indbeta+1:m,:) = GAMMA(indbeta+1:m,:) - GAMMA(indbeta,:) .* GAMMA(indbeta+1:m,alpha);
     %
-    z = c(JB)' * GAMMA(:,JN); % z(j) = sum(GAMMA(n-m+1:n,j) .* c(n-m+1:n) );
+    z = c(JB)' * GAMMA(:,JN);
     pentes = c(JN)' - z;
 end
 %

@@ -1,15 +1,15 @@
 
 %% Initialisations
-NSUC = uint16([0 3 1 3 2 2 2 3]);
+NSUC = uint16([2 3 1 2 0]);
 
-sommet_depart = 2;
-sommet_arrivee = 1;
+sommet_depart = 1;
+sommet_arrivee = 5;
 
 %% Vecteur des successeurs de chaque sommet : SUC
-SUC = uint16([1 8 3 6 3 6 7 4 7 1 7 1 5 3 4 5]);
+SUC = uint16([2 4 3 4 5 5 3 5]);
 %
 % Vecteur des longueurs de chaque arc
-LONG = [inf 1 2 2 1 7 3 0 3 4 2 1 2 5 3 3];
+LONG = [1 2 3 3 12 4 0 5];
 
 [PLUSCOURTCHEMIN,longueur] = FFtensionPlusCourtChemin(NSUC, SUC, LONG, sommet_depart, sommet_arrivee);
 

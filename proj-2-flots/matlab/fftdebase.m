@@ -12,55 +12,32 @@
 % Vecteur du nombre de successeurs de chaque sommet : NSUC
 %
 % Vecteur des successeurs de chaque sommet : SUC
-function [PLUSCOURTCHEMINSANSZERO,longueur] = FFtensionPlusCourtChemin(nsuc, suc, long, sommet_depart, sommet_arrivee)
-%% Initialisations
-NSUC = nsuc;
-
-% sommet_depart = 2;
-% sommet_arrivee = 1;
 %
-NSUC(sommet_depart)=NSUC(sommet_depart)+1;
+%% Initialisations
+NSUC = uint16([3 0 3 1 2 3 2 2]);
 n = size(NSUC,2);
-X = uint16(1:n); % X contient la liste dehavanas sommets de G
+X = uint16(1:n); % X contient la liste des sommets de G
 m = sum(NSUC);
-
-indice_longueur = 0;
-
+%
 % Vecteur des successeurs de chaque sommet : SUC
-SUC = suc;
-% %
-
-i=1;
-while (i<sommet_depart)
-        indice_longueur= indice_longueur+NSUC(i);
-        i=i+1;
-end
-indice_longueur=indice_longueur+1;
-
-SUC((indice_longueur+1):m)=SUC(indice_longueur:(m-1));
-SUC(indice_longueur)=sommet_arrivee;
-
-% % Vecteur des longueurs de chaque arc
-LONG = long;
-% %
-
-LONG((indice_longueur+1):m)=LONG(indice_longueur:(m-1));
-LONG(indice_longueur)=inf;
-
+SUC = uint16([2 3 4 4 5 6 8 6 7 4 7 8 5 2 7 2]);
+%
+% Vecteur des longueurs de chaque arc
+LONG = [inf 1 2 5 3 3 2 0 3 1 3 7 2 1 2 4];
+%
 % Vecteur de la tension courante theta
 theta = zeros(1,m);
 %
 MARQUE = false(1,n); % MARQUE est un vecteur logique
-MARQUE(sommet_arrivee) = true; % on marque le sommet a == 2 ( b == 1 (b,a) == 1)
+MARQUE(2) = true; % on marque le sommet a == 2 ( b == 1 (b,a) == 1)
 %
 NONMARQUES = X(~MARQUE); % NONMARQUES contient la liste des sommets non marqués
-
 %
 PLUSCOURTCHEMIN = uint16(zeros(1,n)); % Vecteur du plus court chemin de 1 (b) à 2 (a)
-PLUSCOURTCHEMIN(1) = sommet_depart;
+PLUSCOURTCHEMIN(1) = 1;
 %
-%% Algorithme de FFhavana
-while ismember(sommet_depart,NONMARQUES) % Tant que b == 1 non marqué
+%% Algorithme de FF
+while ismember(1,NONMARQUES) % Tant que b == 1 non marqué
     CANDIDATS = false(1,n); % CANDIDATS est un vecteur logique contenant les candidats à
     % être marqués
     %
@@ -108,10 +85,10 @@ while ismember(sommet_depart,NONMARQUES) % Tant que b == 1 non marqué
     end
 end
 %% 3. Post-traitement : extraction du plus court chemin
-i = sommet_depart;
-prsuc = indice_longueur;
+i = 1;
+prsuc = 1;
 nsom = 1;
-while i ~= sommet_arrivee
+while i ~= 2
     for k = prsuc:prsuc+NSUC(i)-1
         j = SUC(k);
         if theta(k) == LONG(k)
@@ -123,9 +100,6 @@ while i ~= sommet_arrivee
     i=j;
     prsuc = sum(NSUC(1:i-1)) + 1;
 end
-
-PLUSCOURTCHEMINSANSZERO = PLUSCOURTCHEMIN(1:nsom);
-% %
-% disp (['Plus court chemin : ',num2str(PLUSCOURTCHEMIN(1:nsom))]);
-% disp (['Longueur du plus court chemin : ', num2str(theta(1))]);
-longueur = theta(indice_longueur);
+%
+disp (['Plus court chemin : ',num2str(PLUSCOURTCHEMIN(1:nsom))]);
+disp (['Longueur du plus court chemin : ', num2str(theta(1))]);

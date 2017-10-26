@@ -2,7 +2,7 @@
 %% Initialisations
 NSUC = uint16([0 3 1 3 2 2 2 3]);
 
-sommet_depart = 2;
+sommet_depart = 8;
 sommet_arrivee = 1;
 
 %% Vecteur des successeurs de chaque sommet : SUC

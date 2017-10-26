@@ -23,16 +23,18 @@ function theta = FFtension_ordonancement(NSUC, SUC, LONG)
     % Vecteur des successeurs de chaque sommet : SUC
 %     SUC = uint16([2 3 4 4 5 6 8 6 7 4 7 8 2 7 2]);
     % Vecteur des predeccesseurs de chaque sommet : PRED
-    PRED = uint16([]);
-    NPRED = uint16([]);
-    LONG_PRED = [];
-    %
+    [NPRED, PRED, LONG_PRED] = suc2pred(NSUC, SUC, LONG);
+
+%     NPRED=NSUC;
+%     PRED=SUC;
+%     LONG_PRED=LONG;
+%     
     % Vecteur des longueurs de chaque arc
 %     LONG = [0 1 2 5 3 3 2 0 12 1 3 9 1 2 4];
     Potentiel = zeros(1,m);   % le potentiel en chaque sommet
     %
     % Vecteur de la tension courante theta
-    theta = LONG;
+    theta = LONG_PRED;
     %
     MARQUE = false(1,n); % MARQUE est un vecteur logique
     MARQUE(1) = true; % on marque le premier sommet 
@@ -41,14 +43,14 @@ function theta = FFtension_ordonancement(NSUC, SUC, LONG)
     
     %
     %% Algorithme de FF
-    while ismember(2,NONMARQUES) % Tant que b == 1 non marqué
+    while length(NONMARQUES) ~= 0  % Tant que b == 1 non marqué
         %
         %% 1.   MAJ tension courante theta
         for l=1:size(NONMARQUES,2)
             i = NONMARQUES(l); % i est non marqué
             if NPRED(i) ~= 0 % le nombre de successeurs de i est non nul
                 prpred = sum(NPRED(1:i-1)) + 1; % prsuc contient l'indice du 1er prédecesseur de i
-                tous_marque = 0;   % boolean false
+                tous_marque = 1;   % boolean false
                 for k = prpred:prpred+NPRED(i)-1
                     j = PRED(k); % (i,j) est un arc
                     tous_marque = tous_marque && MARQUE(j);
@@ -58,7 +60,7 @@ function theta = FFtension_ordonancement(NSUC, SUC, LONG)
                    potent_max = 0;
                    for k = prpred:prpred+NPRED(i)-1
                         j = PRED(k); % (i,j) est un arc
-                        potent_max = max(potent_max, theta(k) + Potentiel(j);
+                        potent_max = max(potent_max, LONG_PRED(k) + Potentiel(j));
                    end
                    % on a le potentiel de i
                    Potentiel(i) = potent_max;
@@ -67,9 +69,11 @@ function theta = FFtension_ordonancement(NSUC, SUC, LONG)
                         theta(k) = Potentiel(i) - Potentiel(PRED(k));  % maj de theta
                    end
                    MARQUE(i) = true; % on marque le sommet i
-                   NONMARQUES = setdiff(NONMARQUES,i); % on enlève i des sommets non marqués
+                   NONMARQUES = setdiff(NONMARQUES,i) % on enlève i des sommets non marqués
+                   break
                 end
             end
         end        
     end
+    Potentiel
 end

@@ -20,7 +20,6 @@ K = 1:d*t; % intervalle créneaux
 % === Initialisations ===
 length_X = c*d*t*(m+1);
 A = A_in;
-size(A)
 b = b_in;
 Aeq = Aeq_in;
 beq = beq_in;
@@ -38,7 +37,7 @@ ub = ones(length_X,1);
 % l'emploi du temps
 
 for j=1:c
-  for k=1:20
+  for k=1:d*t
     for u=1:(mod(k,t)-1)
       for v=1:(t - mod(k,t))
         if (~(mod(k,t)==0 || mod(k,t)==1))
@@ -49,6 +48,10 @@ for j=1:c
             end
              	b(begin_ineq,1) = 1;
                 begin_ineq = begin_ineq + 1;
+        else
+            for i=1:m
+                f(threeD2oneD(i,j,k),1)=1;
+            end
         end
       end
     end
@@ -67,12 +70,14 @@ for j=1:c
 end
  
 
-size(A)
-size(f)
+
 X = intlinprog(f,1:length_X,A,b,Aeq,beq,lb,ub);
 
 disp('The result is:---------------------------------------------------------------------------------------------------')
-X(find(0.5<=X))=1
+disp('The result is:-----------------------------------------------------------------')
+%length(find(X(find(0.9<=X))<=1.1))
+length(find(0.5<=X(length_x+1:length_X)))
+X(find(0.5<=X))=1;
 
 
 

@@ -1,13 +1,13 @@
 # TESTS SUR LES FLOTS
 Les fichiers de tests pour les flots suivant différents graphes sont :
-	- ff_test0.m
-	- ff_test1.m
-	- ff_test2.m
-	- exemple_flot_max_20.m
-	- trafic_maritime.m : graphe du sujet !!!
+    * ff_test0.m
+	* ff_test1.m
+	* ff_test2.m
+	* exemple_flot_max_20.m
+	* trafic_maritime.m : graphe du sujet !!!
 
 # TESTS SUR LE PLUS COURT CHEMIN
-	- exemplepcc_graphe*.m
+	* exemplepcc_graphe*.m
 
 # PLUS COURT CHEMIN 
 
@@ -29,13 +29,13 @@ parcouru.
 
 # FONCTIONS AUXILIAIRES
 
-	- capacite.m renvoie pour un graphe G, la capacité entre les sommets i et j
-	- flot.m renvoie pour un graphe G, le flot entre les sommet i et j
-	- maj_flot.m fait la somme des flots dans le graphe G avec le tableau flot_aux
-	- ajouterArc.m fonction qui rajoute l'arc (i,j) de capacité capa dans le
+	* capacite.m renvoie pour un graphe G, la capacité entre les sommets i et j
+	* flot.m renvoie pour un graphe G, le flot entre les sommet i et j
+	* maj_flot.m fait la somme des flots dans le graphe G avec le tableau flot_aux
+	* ajouterArc.m fonction qui rajoute l'arc (i,j) de capacité capa dans le
 	  graphe G
-	- afficherGraphe.m fonction qui affiche le flot dans le graphe
-	- voisins_dir.m fonction qui renvoie le tableau des voisins directes du sommet
+	* afficherGraphe.m fonction qui affiche le flot dans le graphe
+	* voisins_dir.m fonction qui renvoie le tableau des voisins directes du sommet
 	  i dans le graphe G	
-	- voisins_ind.m fonction qui renvoie le tableau des voisins indirectes du sommet
+	* voisins_ind.m fonction qui renvoie le tableau des voisins indirectes du sommet
 	  i dans le graphe G	

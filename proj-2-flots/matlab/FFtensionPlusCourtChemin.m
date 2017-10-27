@@ -16,8 +16,6 @@ function [PLUSCOURTCHEMINSANSZERO,longueur] = FFtensionPlusCourtChemin(nsuc, suc
 %% Initialisations
 NSUC = nsuc;
 
-% sommet_depart = 2;
-% sommet_arrivee = 1;
 %
 NSUC(sommet_depart)=NSUC(sommet_depart)+1;
 n = size(NSUC,2);
@@ -51,16 +49,16 @@ LONG(indice_longueur)=inf;
 theta = zeros(1,m);
 %
 MARQUE = false(1,n); % MARQUE est un vecteur logique
-MARQUE(sommet_arrivee) = true; % on marque le sommet a == 2 ( b == 1 (b,a) == 1)
+MARQUE(sommet_arrivee) = true; % on marque le sommet d'arrivée
 %
 NONMARQUES = X(~MARQUE); % NONMARQUES contient la liste des sommets non marqués
 
 %
-PLUSCOURTCHEMIN = uint16(zeros(1,n)); % Vecteur du plus court chemin de 1 (b) à 2 (a)
+PLUSCOURTCHEMIN = uint16(zeros(1,n)); % Vecteur du plus court chemin du sommet de départ vers le sommet d'arrivée
 PLUSCOURTCHEMIN(1) = sommet_depart;
 %
 %% Algorithme de FFhavana
-while ismember(sommet_depart,NONMARQUES) % Tant que b == 1 non marqué
+while ismember(sommet_depart,NONMARQUES) % Tant que le sommet de départ est non marqué
     CANDIDATS = false(1,n); % CANDIDATS est un vecteur logique contenant les candidats à
     % être marqués
     %
@@ -111,6 +109,7 @@ end
 i = sommet_depart;
 prsuc = indice_longueur;
 nsom = 1;
+arc_sat=zeros(1,m);
 while i ~= sommet_arrivee
     for k = prsuc:prsuc+NSUC(i)-1
         j = SUC(k);

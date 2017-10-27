@@ -16,3 +16,4 @@ LONG = [1 2 3 3 12 4 0 5];
 disp (['Plus court chemin : ',num2str(PLUSCOURTCHEMIN)]);
 disp (['Longueur du plus court chemin : ', num2str(longueur)]);
 
+

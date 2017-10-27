@@ -41,10 +41,7 @@ WITHFOR = 1;
 m = size(A,1);
 n = size(A,2);
 J = 1:n;
-JN = 1:n-m;GAMMA(indbeta,:) = GAMMA(indbeta,:) / GAMMA(indbeta,alpha);
-        GAMMAMOINS = GAMMA(setdiff(1:m,indbeta),:);
-        GAMMAMOINS = GAMMA(indbeta,:) .* GAMMAMOINS(:,alpha);
-        GAM
+JN = 1:n-m;
 JB = setdiff(J,JN);
 %
 %% Prétraitement

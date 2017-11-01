@@ -11,13 +11,17 @@ Nous utilisons slack pour communiquer !
 * Chef de projet : Romain
 * Responsable qualité : Beinset
 
-* Étapes : modélisation du problème pour le 9/10
-
 ### Projet 2
 
 * Rendu : 27/10
 * Chef de projet : Sarah-Myriam
 * Responsable qualité : Mehrad
+
+### Projet 3
+
+* Rendu : 1/12
+* Chef de projet : David
+* Responsable qualité : Ilyass
 
 ## Rapport
 

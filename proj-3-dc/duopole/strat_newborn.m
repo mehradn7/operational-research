@@ -15,21 +15,18 @@ function x = strategie(numpart,tx,ty,gx,gy)
 %  
 %   strategie pour contrer une strategie affine y(n) = b(d-x(n-1))
 
-fid = fopen('test.txt', 'w');
-fseek(fid, numpart, 0);
-fprintf(fid, clock);
-
 if (numpart == 1)
     % par defaut, on coopere
-    x = 1.5;
+    x = 0.75;
 else
     %on punit la trahison!!!
     if (ty(numpart-1)==0.75)
-        x = 1.5;
+        x = 0.75;
     else
         x = strat_agressive(numpart,tx,ty,gx,gy);
     end
 end
+
 end %function
 
 function x = strat_agressive(numpart,tx,ty,gx,gy)

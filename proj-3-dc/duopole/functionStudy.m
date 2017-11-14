@@ -1,9 +1,9 @@
-
 d = 3;
 
 vx = 0:0.1:d;
-vyE = fE(vx,0.75,d);
-vyF = fF(vx,0.75,d);
+vy = 0.75;
+vyE = fE(vx,vy,d);
+vyF = fF(vx,vy,d);
 
 vyDiff = vyF-vyE;
 

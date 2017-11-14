@@ -2,7 +2,7 @@ function x = strategie(numpart,tx,ty,gx,gy)
 % strategie -- Strategie d'un joueur 
 %
 %  Usage
-%    x = strategie(numpart,tx,ty,gx,gy)
+%    x = strategie(nx,ny,ng,tx,ty,gx,gy)
 %
 %  Inputs
 %    tx     tableau des strategies jouees par le joueur x
@@ -12,17 +12,17 @@ function x = strategie(numpart,tx,ty,gx,gy)
 %
 %  Outputs
 %    x      strategie elaboree par le joueur x
-%  
-%   strategie pour contrer une strategie affine y(n) = b(d-x(n-1))
+%
+%  Description
+%    Elaboration d'une strategie dans le cadre de jeux iteres
+%    avec information complete. L'ensemble des strategies est
+%
+%  See also
+%    jeu
+%
+%  References
+%    "L'altruisme perfectionne", J.P. Delahaye, P. Mathieu,
+%    Pour la science No 187, Mai 1993
+%
+x= 1.5;
 
-if (numpart == 1)
-    % par defaut, on coopere
-	x= 0.75;
-else
-    %on punit la trahison!!!
-    if (ty(numpart-1)==0.75)
-        x = 0.75;
-    else
-        x = strat_agressive(numpart,tx,ty,gx,gy);
-    end
-end

@@ -6,7 +6,7 @@ function fig = afficher(tx,ty,gx,gy,nomx,nomy)
 %
 %  Inputs
 %    tx     strategies du joueur A
-%    ty     strategies du joueur A
+%    ty     strategies du joueur B
 %    gx     gains du joueur A
 %    gy     gains du joueur B
 %    nomx   nom du joueur A
@@ -31,8 +31,8 @@ sy(1) = gy(1) ;
 
 for i = 1:(NBC-1)
 
-    sx(i+1) = sx(i) + gx(i+1) ; 
-    sy(i+1) = sy(i) + gy(i+1) ; 
+    sx(i+1) = sx(i) + gx(i+1) ;
+    sy(i+1) = sy(i) + gy(i+1) ;
 
 end ;
 

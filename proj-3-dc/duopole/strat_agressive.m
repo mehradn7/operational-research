@@ -14,10 +14,10 @@ function x = strategie(numpart,tx,ty,gx,gy)
 %    x      strategie elaboree par le joueur x
 
 
-if numpart < 5 || isequal((ty(numpart-3:numpart-1) == ty(numpart-1)), ones(1,3))
+if (numpart < 5) || isequal((ty(numpart-3:numpart-1) == ty(numpart-1)), ones(1,3))
     % si on manque de données ou si y joue toujours la meme chose, non
     % cooperatif
-	%s= strat_noncooperatif(numpart,tx,ty,gx,gy);
+	% s= strat_noncooperatif(numpart,tx,ty,gx,gy);
     s = noncooperatif(numpart,tx,ty,gx,gy);
 else
     % si on detecte une stratégie affine, antiaffine sinon keran2
@@ -30,12 +30,12 @@ else
         s = (3-ty(numpart-1))/(2-coef);
     else
         s = strat_keran2(numpart,tx,ty,gx,gy);
-    end;
-end;
+    end
+end
 
 if (s<0||s>=3)
     x = 0;
 else
     x = s;
-end;
+end
 

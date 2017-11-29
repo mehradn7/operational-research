@@ -13,11 +13,11 @@ for k=0:length(D)-1
 end
 
 
-for i=1:s
-    G= G + Pi(i)*(-C1*S-C2*sum1 -C3 -C4*(S-i) + v*sum2);
+for i=0:s-1
+    G= G + Pi(i+1)*(-C1*S-C2*sum1 -C3 -C4*(S-i) + v*sum2);
 end
 
-for j=s+1:S+1
+for j=s:S
     sum3 =0;
     sum4=0;
     for k=1:length(D)-1-j
@@ -26,7 +26,7 @@ for j=s+1:S+1
     for k=1:length(D)-1
         sum4 = sum4 + min(j,k)+D(k+1);
     end
-    G = G + Pi(j)*(-C1*j-C2*sum3 + v*sum4);
+    G = G + Pi(j+1)*(-C1*j-C2*sum3 + v*sum4);
 end
 
 end

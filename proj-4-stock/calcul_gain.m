@@ -27,9 +27,9 @@ function G =calcul_gain(s,D,S)
 % string=input('Choisir une loi: ','s');
 % D = init_Loi(string,N);
 % % Somme pour k allant de s a +infini de alphak
-S=5
-s=3
-D=[0.1 0.2 0.2 0.2 0.1 0.1 0.1 0 0 0 0 0 0]
+% S=5;
+% s=3;
+% D=[0.1 0.2 0.2 0.2 0.1 0.1 0.1 0 0 0 0 0 0];
 somme_proba = 1 - sum(D(1:S));
 
 % La matrice de transition P
@@ -45,7 +45,7 @@ end
 for i=2:s
     P(i,:) = P(1,:);
 end
-%On peut aussi rempli la dernière ligne qui est identique
+%On peut aussi rempli la dernière ligne qui est identique à la première
 P(S+1,:) = P(1,:);
 
 %Il reste à remplir de (s+1) à (S) lignes

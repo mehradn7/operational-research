@@ -14,7 +14,7 @@ function D = init_Loi(string,N)
             lambda=input('Entrer lambda: ');
             D = poisspdf(1:N,lambda);
         case 'binomiale'
-            N=input('Entrer p: ');
+            p=input('Entrer p: ');
             D=binornd(1:N,p);
 %         case 'geometrique'
 %             N=input('Entrer N');

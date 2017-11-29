@@ -1,8 +1,9 @@
 % premiere etape : Lancer platine, demander 1, choisir scene1, puis arreter
 % platine
 nurbs = T(1).nurbs; % recuperation des caracteristiques de la trajectoire du premier robot
-figure(1), clf, hold on, nrbplot(nurbs,subd,'m'); %affichage de cette nurbs
+figure(1), clf, hold on, nrbplot(nurbs,subd,'m'); xlim([1 100]); ylim([1 100])%affichage de cette nurbs
 coefs = nurbs.coefs;
+set(gca, 'YDir', 'reverse');
 
 for i=1:size(coefs,2)
     figure(1),hold on,

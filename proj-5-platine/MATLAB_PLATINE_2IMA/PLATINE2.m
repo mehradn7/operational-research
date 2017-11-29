@@ -31,7 +31,7 @@ while continuer
     disp('********************************************');
     disp ('Pour afficher une scene existante , taper 1');
     disp ('Pour creer une scene , taper 2');
-    disp ('Pour sauvegarder une scene, taper 11');
+    disp ('Pour sauvegarder une scennurbs = T(1).nurbs;nurbs = T(1).nurbs;e, taper 11');
     disp ('*')
     disp ('Pour creer une nouvelle trajectoire dans une scene existante , taper 3');
     disp ('Pour changer la loi de vitesse d''une trajectoire , taper 4');

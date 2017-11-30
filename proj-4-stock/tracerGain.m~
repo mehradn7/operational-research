@@ -21,7 +21,7 @@ end
 for S=1:V_MAX
     for s=1:V_MAX
         if (s > S)
-           Z(S,s) = NaN;
+           Z(s,S) = NaN;
         end
     end
 end
@@ -29,9 +29,9 @@ end
 
 fig1 = figure;
 surf(X,Y,Z);
-xlabel('S');
+xlabel('s');
 zlabel('gain');
-ylabel('s');
+ylabel('S');
 legend('Gain en fonction de s et S');
 
 fig2 = figure;

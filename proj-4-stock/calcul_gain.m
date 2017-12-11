@@ -65,7 +65,6 @@ Ptmp1=eye(S+1,S+1)-P;
 Ptmp2 = [Ptmp1';ones(1,S+1)]; 
 Pi=Ptmp2\b;
 
-
 C1=5;
 C2=10;
 C3=10;

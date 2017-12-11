@@ -1,4 +1,6 @@
-S=5;
+N=10;
+S=7;
 s=3;
-D=[0.1 0.2 0.2 0.2 0.1 0.1 0.1 0 0 0 0 0 0];
+string=input('Choisir une loi: ','s');
+D=init_Loi(string,N)
 calcul_gain(s,D,S)

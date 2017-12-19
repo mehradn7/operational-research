@@ -3,10 +3,22 @@
 cprintf([1,0,1],'  A COMPLETER');
 disp(' ');
 
+%% DEBUT AJOUT
+
 nurbs = T(1).nurbs;
-nurbs2 = nurbs;
-nurbs2.coefs(:,4) = nurbs.coefs(:,4)/10;
-T(1).nurbs = nurbs2;
+
+p_coll = [0 0];
+pc_min = T(1).depart;
+distance_min = norm(pc_min-p_coll);
+points = nurbs.coefs(1:2,:)./nurbs.coefs(4,:);
+points = (points - p_coll') .* (points - p_coll');
+v = points(1,:) + points(2,:);
+[min(v);
+for i=1:size(points,2)
+    points(:,i) = norm(points(:,i)-p_coll');
+end
+%% FIN AJOUT
+
 
 % Sauvegarde de la scene
 reponse = input('Changement du nom de la scene ? [Y/N] ','s');
